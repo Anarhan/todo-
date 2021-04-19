@@ -27,3 +27,8 @@ def add_book(request):
     )
     book.save()
     return redirect(books)
+
+
+def books(request):
+    books_list = Books.objects.all()
+    return render(request, "books.html", {"books_list": books_list})
