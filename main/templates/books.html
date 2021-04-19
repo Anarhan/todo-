@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page books</title>
+    <link rel="stylesheet" href="{% static 'styles/books.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/index.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/checkbox.css' %}">
+</head>
+<body>
+
+    <div class="save_form">
+
+        <form action="{% url 'add-book' %}" method="POST">
+            {% csrf_token %}
+            <div class="div_input">
+                <input type="text" class="style_input" placeholder="Заголовок" name="title">
+            </div>
+
+            <div class="div_input">
+                <input type="text" class="style_input" placeholder="Подзаголовок" name="subtitle">
+            </div>
+
+            <div class="div_input">
+                <input type="text" class="style_input" placeholder="Описание" name="description">
+            </div>
+
+            <div class="div_input">
+                <input type="text" class="style_input" placeholder="Цена" name="price">
+            </div>
+
+            <div class="div_input">
+                <input type="text" class="style_input" placeholder="Жанр" name="genre">
+            </div>
+
+            <div class="div_input">
+                <input type="text" class="style_input" placeholder="Год выпуска" name="year">
+            </div>
+
+            <div class="div_input">
+                <button class="style_input">Добавить книгу</button>
+            </div>
+
+            </form>
+
+    </div>
+
+    <hr>
+    <h1>Список книг</h1>
+    <hr>
+
+    <div class="todo_container">
+    
+        {% for books in books_list %}
+        <div class="todo_item
+        {% if books.is_favorites %}
+            marked
+            {% elif books.is_closed %}
+            done
+        {% endif %}
+        ">
+        
+
+            <h3 class=""> 
+
+
+                Заголовок: {{ books.title }} </h3> 
+
+            <h4 class=""> Жанр: {{ books.genre }} </h4>
+            <h4 class=""> Цена: {{ books.price }} </h4>
+
+            {% if books.is_favorites %}
+                <a href="{% url 'unmark-book' books.id %}">
+                    <img src="{% static './icons/marked.png' %}" alt="" style="width: 25px; height: 25px;">
+                </a>
+            {% else %}
+                <a href="{% url 'mark-book' books.id %}">
+                    <img src="{% static './icons/unmarked.png' %}" alt="" style="width: 25px; height: 25px;">
+                </a>
+            {% endif %}
+                <a href="{% url 'delete-book' books.id %}">
+                    <img src="{% static './icons/delete.png' %}" alt="" style="width: 25px; height: 25px;">
+                </a>
+
+                <a href="{% url 'book' books.id %}" style="font-size: 20px; font-style: italic;">
+                    Посмотреть подробнее
+                </a><br><br>
+                <label class="checkbox_container">
+                    <input type="checkbox" 
+                    {%  if books.is_closed %}
+                    checked
+                    {% endif %}
+                    >
+                    <span class="checkmark"></span>
+                </label>
+                 <h4 class="under"><a href="{% url 'close-book' books.id %}"> Статус выполнения задачи </a> </h4>               
+
+         </div>
+
+        {% endfor %}
+
+        
+    </div>
+
+</body>
+</html>
