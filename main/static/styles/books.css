@@ -12,12 +12,12 @@
     font-size: 20px;
     min-width: 500px;
     border-radius: 5px;
-    background-color: aqua;
+    background-color: purple;
 }
 
 .div_input {
     margin: 10px auto;
-
+    background-color: purple;
 }
 
 h3, h4 {

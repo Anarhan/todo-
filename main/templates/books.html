@@ -39,5 +39,62 @@
             </form>
     </div>
 
+    <hr>
+    <h1>Список книг</h1>
+    <hr>
+
+    <div class="todo_container">
+    
+        {% for books in books_list %}
+        <div class="todo_item
+        {% if books.is_favorites %}
+            marked
+            {% elif books.is_closed %}
+            done
+        {% endif %}
+        ">
+        
+
+            <h3 class=""> Заголовок: {{ books.title }} </h3> 
+            <h4 class=""> Подзаголовок: {{ books.subtitle }} </h4>
+            <h4 class=""> Описание: {{ books.description }} </h4>
+            <h4 class=""> Цена: {{ books.price }} </h4>
+            <h4 class=""> Жанр: {{ books.genre }} </h4>
+            <h4 class=""> Год выпуска: {{ books.year }} </h4>
+
+            {% if books.is_favorites %}
+                <a href="{% url 'unmark-book' books.id %}">
+                    <img src="{% static './icons/marked.png' %}" alt="" style="width: 30px; height: 30px;">
+                </a>
+            {% else %}
+                <a href="{% url 'mark-book' books.id %}">
+                    <img src="{% static './icons/unmarked.png' %}" alt="" style="width: 30px; height: 30px;">
+                </a>
+            {% endif %}
+                <a href="{% url 'delete-book' books.id %}">
+                    <img src="{% static './icons/delete.png' %}" alt="" style="width: 30px; height: 30px;">
+                </a>
+
+                <label class="checkbox_container">
+                    <input type="checkbox" 
+                    {%  if books.is_closed %}
+                    checked
+                    {% endif %}
+                    >
+                    <span class="checkmark"></span>
+                </label>
+                 <h4 class="under"><a href="{% url 'close-book' books.id %}"> Статус выполнения задачи </a> </h4>               
+
+         </div>
+
+        {% endfor %}
+
+        
+    </div>
+
+
+
+
+
 </body>
 </html>
